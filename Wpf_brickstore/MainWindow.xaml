@@ -6,19 +6,57 @@
         xmlns:local="clr-namespace:Wpf_brickstore"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="Black">
         <StackPanel Orientation="Vertical">
-            <Button Content="Fájl megnyitása" Click="OpenFileButton_Click" Width="150" Height="30" Margin="10"/>
+            <Button Content="Fájl megnyitása" Click="OpenFileButton_Click" Width="150" Height="30" Margin="10" Background="Black">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Foreground" Value="Orange"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF9933"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Szűrés ItemID-re:" VerticalAlignment="Center"/>
-                <TextBox x:Name="ItemIdFilter" Width="100" Margin="5" />
-                <TextBlock Text="Szűrés ItemName-re:" VerticalAlignment="Center"/>
-                <TextBox x:Name="ItemNameFilter" Width="100" Margin="5"/>
-                <TextBlock Text="Szűrés CategoryName-re:" VerticalAlignment="Center"/>
-                <TextBox x:Name="CategoryNameFilter" Width="100" Margin="5"/>
-                <Button Content="Szűrés" Click="FilterButton_Click"/>
+                <TextBlock Text="Szűrés ItemID-re:" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Orange"/>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="ItemIdFilter" Width="100" Margin="5" Background="Orange" Foreground="Black"/>
+                <TextBlock Text="Szűrés ItemName-re:" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Orange"/>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="ItemNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black"/>
+                <TextBlock Text="Szűrés CategoryName-re:" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Orange"/>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="CategoryNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black"/>
+                <Button Content="Szűrés" Click="FilterButton_Click" Background="Black">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="Orange"/>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
-            <DataGrid x:Name="ItemDataGrid" AutoGenerateColumns="False" Margin="10" IsReadOnly="True">
+            <DataGrid x:Name="ItemDataGrid" AutoGenerateColumns="False" Margin="10" IsReadOnly="True" 
+                  Background="Black" Foreground="Orange" 
+                  RowBackground="Black" AlternatingRowBackground="Black" 
+                  GridLinesVisibility="None">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ItemID" Binding="{Binding ItemID}" Width="100"/>
                     <DataGridTextColumn Header="ItemName" Binding="{Binding ItemName}" Width="200"/>
@@ -29,4 +67,7 @@
             </DataGrid>
         </StackPanel>
     </Grid>
+
+
+
 </Window>

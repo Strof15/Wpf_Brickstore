@@ -11,14 +11,12 @@ using System.Windows.Shapes;
 
 namespace Wpf_brickstore
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+            //valamiert nem akart mukodni a commit imadomhmm???
         }
     }
 }

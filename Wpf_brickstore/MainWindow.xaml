@@ -1,0 +1,32 @@
+﻿<Window x:Class="Wpf_brickstore.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_brickstore"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Button Content="Fájl megnyitása" Click="OpenFileButton_Click" Width="150" Height="30" Margin="10"/>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Szűrés ItemID-re:" VerticalAlignment="Center"/>
+                <TextBox x:Name="ItemIdFilter" Width="100" Margin="5" />
+                <TextBlock Text="Szűrés ItemName-re:" VerticalAlignment="Center"/>
+                <TextBox x:Name="ItemNameFilter" Width="100" Margin="5"/>
+                <TextBlock Text="Szűrés CategoryName-re:" VerticalAlignment="Center"/>
+                <TextBox x:Name="CategoryNameFilter" Width="100" Margin="5"/>
+                <Button Content="Szűrés" Click="FilterButton_Click"/>
+            </StackPanel>
+            <DataGrid x:Name="ItemDataGrid" AutoGenerateColumns="False" Margin="10" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ItemID" Binding="{Binding ItemID}" Width="100"/>
+                    <DataGridTextColumn Header="ItemName" Binding="{Binding ItemName}" Width="200"/>
+                    <DataGridTextColumn Header="CategoryName" Binding="{Binding CategoryName}" Width="150"/>
+                    <DataGridTextColumn Header="ColorName" Binding="{Binding ColorName}" Width="100"/>
+                    <DataGridTextColumn Header="Qty" Binding="{Binding Qty}" Width="50"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

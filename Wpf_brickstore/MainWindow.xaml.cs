@@ -70,7 +70,7 @@ namespace Wpf_brickstore
                 .OrderBy(x => x)
                 .ToList();
 
-            uniqueCategories.Insert(0, "alapértelmezett Mezo");
+            uniqueCategories.Insert(0, "Összes Kategória");
             CategoryNameFilter.ItemsSource = uniqueCategories;
             ItemDataGrid.ItemsSource = filteredItems;
         }

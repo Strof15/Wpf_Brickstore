@@ -1,14 +1,8 @@
-﻿using Microsoft.Win32;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 using System.Xml.Linq;
 
 namespace Wpf_brickstore
@@ -16,7 +10,6 @@ namespace Wpf_brickstore
     public partial class MainWindow : Window
     {
         private List<Item> items = new List<Item>();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -34,7 +27,7 @@ namespace Wpf_brickstore
                 try
                 {
                     LoadBSXFile(openFileDialog.FileName);
-                    ItemDataGrid.ItemsSource = items;
+                    Caller();
                 }
                 catch (Exception ex)
                 {
@@ -49,39 +42,52 @@ namespace Wpf_brickstore
 
         private void LoadBSXFile(string filePath)
         {
-            try
-            {
-                XDocument xaml = XDocument.Load(filePath);
-                items = xaml.Descendants("Item")
-                    .Select(x => new Item
-                    {
-                        ItemID = x.Element("ItemID")?.Value,
-                        ItemName = x.Element("ItemName")?.Value,
-                        CategoryName = x.Element("CategoryName")?.Value,
-                        ColorName = x.Element("ColorName")?.Value,
-                        Qty = int.Parse(x.Element("Qty")?.Value ?? "0")
-                    })
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("A fájl formátuma nem megfelelő.");
-            }
+            XDocument xaml = XDocument.Load(filePath);
+            items = xaml.Descendants("Item")
+                .Select(x => new Item
+                {
+                    ItemID = x.Element("ItemID").Value,
+                    ItemName = x.Element("ItemName").Value,
+                    CategoryName = x.Element("CategoryName").Value,
+                    ColorName = x.Element("ColorName").Value,
+                    Qty = int.Parse(x.Element("Qty")?.Value ?? "0")
+                })
+                .ToList();
         }
-
-        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        private void Caller()
         {
             string itemIdFilter = ItemIdFilter.Text.ToLower();
             string itemNameFilter = ItemNameFilter.Text.ToLower();
-            string categoryNameFilter = CategoryNameFilter.Text.ToLower();
-
+            string categoryNameFilter = CategoryNameFilter.SelectedItem?.ToString().ToLower() ?? "";
             var filteredItems = items.Where(x =>
                 (string.IsNullOrEmpty(itemIdFilter) || x.ItemID.ToLower().Contains(itemIdFilter)) &&
                 (string.IsNullOrEmpty(itemNameFilter) || x.ItemName.ToLower().Contains(itemNameFilter)) &&
                 (string.IsNullOrEmpty(categoryNameFilter) || x.CategoryName.ToLower().Contains(categoryNameFilter))
             ).ToList();
+            var uniqueCategories = filteredItems
+                .Select(x => x.CategoryName)
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList();
 
+            uniqueCategories.Insert(0, "alapértelmezett Mezo");
+            CategoryNameFilter.ItemsSource = uniqueCategories;
             ItemDataGrid.ItemsSource = filteredItems;
+        }
+
+        private void ItemIdFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Caller();
+        }
+
+        private void ItemNameFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Caller();
+        }
+
+        private void CategoryNameFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Caller();
         }
     }
 

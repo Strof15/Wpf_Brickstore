@@ -28,7 +28,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <TextBox x:Name="ItemIdFilter" Width="100" Margin="5" Background="Orange" Foreground="Black"/>
+                <TextBox x:Name="ItemIdFilter" Width="100" Margin="5" Background="Orange" Foreground="Black" TextChanged="ItemIdFilter_TextChanged"/>
                 <TextBlock Text="Szűrés ItemName-re:" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -36,7 +36,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <TextBox x:Name="ItemNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black"/>
+                <TextBox x:Name="ItemNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black" TextChanged="ItemNameFilter_TextChanged"/>
                 <TextBlock Text="Szűrés CategoryName-re:" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -44,14 +44,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <TextBox x:Name="CategoryNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black"/>
-                <Button Content="Szűrés" Click="FilterButton_Click" Background="Black">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Foreground" Value="Orange"/>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                <ComboBox x:Name="CategoryNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black" SelectionChanged="CategoryNameFilter_SelectionChanged" />
             </StackPanel>
             <DataGrid x:Name="ItemDataGrid" AutoGenerateColumns="False" Margin="10" IsReadOnly="True" 
                   Background="Black" Foreground="Orange" 

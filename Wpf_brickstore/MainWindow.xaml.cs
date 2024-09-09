@@ -10,6 +10,7 @@ namespace Wpf_brickstore
     public partial class MainWindow : Window
     {
         private List<Item> items = new List<Item>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -54,24 +55,32 @@ namespace Wpf_brickstore
                 })
                 .ToList();
         }
+
         private void Caller()
         {
             string itemIdFilter = ItemIdFilter.Text.ToLower();
             string itemNameFilter = ItemNameFilter.Text.ToLower();
-            string categoryNameFilter = CategoryNameFilter.SelectedItem?.ToString().ToLower() ?? "";
+            string categoryNameFilter = CategoryNameFilter.SelectedItem?.ToString().ToLower() ?? "összes kategória";
+
             var filteredItems = items.Where(x =>
                 (string.IsNullOrEmpty(itemIdFilter) || x.ItemID.ToLower().Contains(itemIdFilter)) &&
                 (string.IsNullOrEmpty(itemNameFilter) || x.ItemName.ToLower().Contains(itemNameFilter)) &&
-                (string.IsNullOrEmpty(categoryNameFilter) || x.CategoryName.ToLower().Contains(categoryNameFilter))
+                (categoryNameFilter == "összes kategória" || x.CategoryName.ToLower().Contains(categoryNameFilter))
             ).ToList();
+
             var uniqueCategories = filteredItems
                 .Select(x => x.CategoryName)
                 .Distinct()
                 .OrderBy(x => x)
                 .ToList();
 
-            uniqueCategories.Insert(0, "Összes Kategória");
+            uniqueCategories.Insert(0, "Összes kategória");
             CategoryNameFilter.ItemsSource = uniqueCategories;
+
+            if (CategoryNameFilter.SelectedIndex == -1)
+            {
+                CategoryNameFilter.SelectedIndex = 0;
+            }
             ItemDataGrid.ItemsSource = filteredItems;
         }
 

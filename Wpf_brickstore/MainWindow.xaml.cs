@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
 using System.Xml.Linq;
+using System.IO;
+using Microsoft.Win32;
 
 namespace Wpf_brickstore
 {
@@ -16,28 +17,44 @@ namespace Wpf_brickstore
             InitializeComponent();
         }
 
-        private void OpenFileButton_Click(object sender, RoutedEventArgs e)
+        private void OpenFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            var dialog = new OpenFileDialog
             {
-                Filter = "BSX Files (*.bsx)|*.bsx|All Files (*.*)|*.*"
+                Filter = "Mappák|*.*",
+                CheckFileExists = false,
+                CheckPathExists = true
             };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (dialog.ShowDialog() == true)
             {
+                string selectedPath = Path.GetDirectoryName(dialog.FileName);
+                var bsxFiles = Directory.GetFiles(selectedPath, "*.bsx");
+
+                if (bsxFiles.Length > 0)
+                {
+                    FileListBox.ItemsSource = bsxFiles;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Nincsenek BSX fájlok a kiválasztott mappában.");
+                }
+            }
+        }
+        private void FileListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (FileListBox.SelectedItem != null)
+            {
+                string selectedFile = FileListBox.SelectedItem.ToString();
                 try
                 {
-                    LoadBSXFile(openFileDialog.FileName);
+                    LoadBSXFile(selectedFile);
                     Caller();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Hiba a fájl beolvasásakor: {ex.Message}");
+                    System.Windows.MessageBox.Show($"Hiba a fájl beolvasásakor: {ex.Message}");
                 }
-            }
-            else
-            {
-                MessageBox.Show("A fájl nem található, vagy nem lett kiválasztva.");
             }
         }
 
@@ -51,7 +68,7 @@ namespace Wpf_brickstore
                     ItemName = x.Element("ItemName").Value,
                     CategoryName = x.Element("CategoryName").Value,
                     ColorName = x.Element("ColorName").Value,
-                    Qty = int.Parse(x.Element("Qty")?.Value ?? "0")
+                    Qty = int.Parse(x.Element("Qty").Value ?? "0")
                 })
                 .ToList();
         }

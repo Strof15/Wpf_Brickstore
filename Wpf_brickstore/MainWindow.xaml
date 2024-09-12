@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="Black">
         <StackPanel Orientation="Vertical">
-            <Button Content="Fájl megnyitása" Click="OpenFileButton_Click" Width="150" Height="30" Margin="10" Background="Black">
+            <Button Content="Mappa megnyitása" Click="OpenFolderButton_Click" Width="150" Height="30" Margin="10" Background="Black">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Foreground" Value="Orange"/>
@@ -20,6 +20,8 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <ListBox x:Name="FileListBox" Width="800" Height="200" Background="Orange" Foreground="Black" 
+                     SelectionChanged="FileListBox_SelectionChanged" />
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="Szűrés ItemID-re:" VerticalAlignment="Center">
                     <TextBlock.Style>
@@ -47,20 +49,17 @@
                 <ComboBox x:Name="CategoryNameFilter" Width="100" Margin="5" Background="Orange" Foreground="Black" SelectionChanged="CategoryNameFilter_SelectionChanged" />
             </StackPanel>
             <DataGrid x:Name="ItemDataGrid" AutoGenerateColumns="False" Margin="10" IsReadOnly="True" 
-                  Background="Black" Foreground="Orange" 
+                  Background="Black" Foreground="Orange" CanUserSortColumns="True"
                   RowBackground="Black" AlternatingRowBackground="Black" 
                   GridLinesVisibility="None">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ItemID" Binding="{Binding ItemID}" Width="100"/>
-                    <DataGridTextColumn Header="ItemName" Binding="{Binding ItemName}" Width="200"/>
-                    <DataGridTextColumn Header="CategoryName" Binding="{Binding CategoryName}" Width="150"/>
-                    <DataGridTextColumn Header="ColorName" Binding="{Binding ColorName}" Width="100"/>
-                    <DataGridTextColumn Header="Qty" Binding="{Binding Qty}" Width="50"/>
+                    <DataGridTextColumn Header="ItemID" Binding="{Binding ItemID}" Width="100" SortMemberPath="ItemID"/>
+                    <DataGridTextColumn Header="ItemName" Binding="{Binding ItemName}" Width="200" SortMemberPath="ItemName"/>
+                    <DataGridTextColumn Header="CategoryName" Binding="{Binding CategoryName}" Width="150" SortMemberPath="CategoryName"/>
+                    <DataGridTextColumn Header="ColorName" Binding="{Binding ColorName}" Width="100" SortMemberPath="ColorName"/>
+                    <DataGridTextColumn Header="Qty" Binding="{Binding Qty}" Width="50" SortMemberPath="Qty"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
     </Grid>
-
-
-
 </Window>
